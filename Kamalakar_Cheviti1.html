@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kamalakar Cheviti — Power Platform Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #09080f;
+    --surface: #100f1a;
+    --surface2: #161428;
+    --border: rgba(255,255,255,0.08);
+    --accent: #1a6fd4;
+    --accent2: #ff7a1a;
+    --accent3: #ff9f4a;
+    --gold: #ff7a1a;
+    --text: #f0eefc;
+    --muted: #7070a0;
+    --glow: rgba(26,111,212,0.35);
+    --glow-orange: rgba(255,122,26,0.35);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 5% 5%, rgba(26,111,212,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 45% at 95% 85%, rgba(255,122,26,0.12) 0%, transparent 55%),
+      radial-gradient(ellipse 35% 35% at 55% 45%, rgba(255,159,74,0.05) 0%, transparent 60%);
+    pointer-events: none; z-index: 0;
+  }
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1rem 4rem;
+    backdrop-filter: blur(20px);
+    background: rgba(7,8,15,0.8);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  section { position: relative; z-index: 1; padding: 7rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+  .section-tag { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent2); margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.8rem; }
+  .section-line { width: 44px; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; margin-bottom: 3rem; }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: flex; align-items: center; padding-top: 5rem; }
+  .hero-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 4rem; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(26,111,212,0.1); border: 1px solid rgba(255,122,26,0.4);
+    color: var(--accent2); font-size: 0.75rem; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 0.38rem 1rem; border-radius: 100px;
+    margin-bottom: 1.5rem; animation: fadeUp 0.6s ease both;
+  }
+  .hero-badge::before { content: ''; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.5)} }
+  .hero-name { font-family: 'Syne', sans-serif; font-size: clamp(3rem, 5.5vw, 5.2rem); font-weight: 800; line-height: 1.0; letter-spacing: -0.03em; animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-name span { background: linear-gradient(135deg, var(--accent) 0%, #4d9fe8 40%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-title { font-size: 1.05rem; color: var(--muted); margin: 1rem 0 0.5rem; font-weight: 300; animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-location { font-size: 0.88rem; color: var(--muted); margin-bottom: 1.8rem; animation: fadeUp 0.6s 0.25s ease both; }
+  .hero-location span { color: var(--accent2); }
+  .hero-desc { max-width: 540px; color: #8888aa; font-size: 0.97rem; margin-bottom: 2.5rem; animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; animation: fadeUp 0.6s 0.4s ease both; }
+  .btn-primary { padding: 0.85rem 2rem; background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; cursor: pointer; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 24px var(--glow); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 36px var(--glow); }
+  .btn-outline { padding: 0.85rem 2rem; background: transparent; color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; cursor: pointer; text-decoration: none; transition: border-color 0.2s, background 0.2s; }
+  .btn-outline:hover { border-color: var(--accent); background: rgba(26,111,212,0.07); }
+  .hero-avatar { width: 240px; height: 240px; border-radius: 50%; background: linear-gradient(135deg, rgba(26,111,212,0.25), rgba(255,122,26,0.2)); border: 2px solid rgba(255,122,26,0.4); display: flex; align-items: center; justify-content: center; font-size: 5rem; flex-shrink: 0; animation: fadeUp 0.7s 0.15s ease both; box-shadow: 0 0 80px rgba(255,122,26,0.15), 0 0 40px rgba(26,111,212,0.15); }
+
+  /* METRICS */
+  #metrics { padding: 0 0 5rem; }
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem 1.5rem; text-align: center; transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+  .metric-card:hover { border-color: var(--accent2); transform: translateY(-5px); box-shadow: 0 16px 48px rgba(255,122,26,0.15); }
+  .metric-num { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+  .metric-label { font-size: 0.82rem; color: var(--muted); line-height: 1.4; }
+  .metric-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: start; }
+  .about-text p { color: #8888aa; margin-bottom: 1.2rem; font-size: 0.97rem; }
+  .about-text strong { color: var(--text); }
+  .cert-list { display: flex; flex-direction: column; gap: 0.8rem; }
+  .cert-item { display: flex; align-items: center; gap: 0.8rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.9rem 1.1rem; font-size: 0.88rem; transition: border-color 0.2s; }
+  .cert-item:hover { border-color: var(--gold); }
+  .cert-icon { font-size: 1.3rem; }
+  .cert-name { font-weight: 500; }
+  .cert-sub { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 0.1rem; }
+
+  /* SKILLS */
+  #skills { background: rgba(14,15,28,0.6); }
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+  .skill-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.6rem; transition: border-color 0.2s, transform 0.25s, box-shadow 0.25s; }
+  .skill-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255,122,26,0.12); }
+  .skill-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
+  .skill-card h3 { font-family: 'Syne', sans-serif; font-size: 0.98rem; font-weight: 700; margin-bottom: 0.7rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+  .tag { background: rgba(26,111,212,0.1); border: 1px solid rgba(26,111,212,0.25); color: #5aaaf5; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px; }
+  .tag.purple { background: rgba(255,122,26,0.1); border-color: rgba(255,122,26,0.3); color: #ffaa66; }
+  .tag.teal { background: rgba(255,159,74,0.08); border-color: rgba(255,159,74,0.25); color: #ffcc88; }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 2px; }
+  .timeline::before { content: ''; position: absolute; left: 19px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--accent2), rgba(26,111,212,0.05)); }
+  .timeline-item { display: flex; gap: 2rem; margin-bottom: 3rem; }
+  .timeline-dot { width: 40px; height: 40px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent2); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1.1rem; box-shadow: 0 0 20px var(--glow-orange); margin-top: 4px; }
+  .timeline-body { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; flex: 1; transition: border-color 0.2s, box-shadow 0.2s; }
+  .timeline-body:hover { border-color: var(--accent2); box-shadow: 0 8px 32px rgba(255,122,26,0.1); }
+  .timeline-meta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.4rem; }
+  .timeline-date { font-size: 0.75rem; color: var(--accent2); background: rgba(255,122,26,0.1); border: 1px solid rgba(255,122,26,0.3); padding: 0.2rem 0.7rem; border-radius: 100px; }
+  .timeline-company { color: var(--muted); font-size: 0.85rem; }
+  .timeline-location { color: var(--muted); font-size: 0.82rem; }
+  .timeline-body h3 { font-family: 'Syne', sans-serif; font-size: 1.12rem; font-weight: 700; margin-bottom: 1rem; }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+  .exp-bullets li { font-size: 0.9rem; color: #8888aa; padding-left: 1.2rem; position: relative; }
+  .exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--accent2); font-size: 0.7rem; top: 4px; }
+
+  /* ACHIEVEMENTS */
+  #achievements { background: rgba(14,15,28,0.6); }
+  .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .ach-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; display: flex; gap: 1.5rem; align-items: flex-start; transition: border-color 0.2s, transform 0.2s; }
+  .ach-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .ach-num { font-family: 'Syne', sans-serif; font-size: 2.8rem; font-weight: 800; color: var(--gold); line-height: 1; flex-shrink: 0; min-width: 80px; }
+  .ach-text { font-size: 0.9rem; color: #8888aa; line-height: 1.55; padding-top: 0.3rem; }
+
+  /* EDUCATION */
+  .edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; transition: border-color 0.2s, transform 0.2s; }
+  .edu-card:hover { border-color: var(--accent3); transform: translateY(-3px); }
+  .edu-icon { font-size: 2rem; margin-bottom: 0.9rem; }
+  .edu-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .edu-card .school { color: var(--accent2); font-size: 0.88rem; margin-bottom: 0.25rem; }
+  .edu-card .year { color: var(--muted); font-size: 0.8rem; }
+  .edu-gpa { display: inline-block; margin-top: 0.6rem; background: rgba(255,122,26,0.1); border: 1px solid rgba(255,122,26,0.3); color: #ffaa66; font-size: 0.75rem; padding: 0.2rem 0.65rem; border-radius: 100px; }
+
+  /* CONTACT */
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .contact-info p { color: #8888aa; margin-bottom: 2rem; font-size: 0.95rem; }
+  .contact-links { display: flex; flex-direction: column; gap: 0.9rem; }
+  .contact-link { display: flex; align-items: center; gap: 1rem; color: var(--text); text-decoration: none; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; transition: border-color 0.2s, transform 0.2s; font-size: 0.9rem; }
+  .contact-link:hover { border-color: var(--accent); transform: translateX(5px); }
+  .cl-icon { font-size: 1.3rem; }
+  .cl-label { color: var(--muted); font-size: 0.72rem; display: block; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group label { display: block; font-size: 0.78rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.05em; }
+  .form-group input, .form-group textarea { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 0.93rem; outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  footer { position: relative; z-index: 1; text-align: center; padding: 2.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.82rem; }
+  footer strong { color: var(--accent2); }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-d1 { transition-delay: 0.1s; }
+  .reveal-d2 { transition-delay: 0.2s; }
+  .reveal-d3 { transition-delay: 0.3s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-inner { grid-template-columns: 1fr; text-align: center; }
+    .hero-avatar { display: none; }
+    .hero-ctas { justify-content: center; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+    .ach-grid, .edu-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .metrics-row { grid-template-columns: 1fr 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Kamalakar.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#achievements">Wins</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">🟢 Open to Opportunities</div>
+        <h1 class="hero-name">Kamalakar<br/><span>Cheviti</span></h1>
+        <p class="hero-title">Senior Power Platform Developer · PL-400 Certified · Copilot Studio Specialist</p>
+        <p class="hero-location">📍 <span>Lowell, MA</span> &nbsp;|&nbsp; 6+ Years Experience</p>
+        <p class="hero-desc">Building enterprise automation, AI-driven applications, and cloud solutions across healthcare and gaming — full Power Platform stack, Azure OpenAI integrations, and CI/CD pipelines.</p>
+        <div class="hero-ctas">
+          <a href="mailto:chevitikamalakar234@gmail.com" class="btn-primary">📧 Get In Touch</a>
+          <a href="#experience" class="btn-outline">View Experience</a>
+        </div>
+      </div>
+      <div class="hero-avatar">👨‍💻</div>
+    </div>
+  </div>
+</section>
+
+<section id="metrics">
+  <div class="container">
+    <div class="metrics-row">
+      <div class="metric-card reveal">
+        <div class="metric-icon">📅</div>
+        <div class="metric-num">6+</div>
+        <div class="metric-label">Years of Power Platform Experience</div>
+      </div>
+      <div class="metric-card reveal reveal-d1">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-num">40%</div>
+        <div class="metric-label">Reduction in Manual Processing Time Through Power Platform Automation</div>
+      </div>
+      <div class="metric-card reveal reveal-d2">
+        <div class="metric-icon">🚀</div>
+        <div class="metric-num">60%</div>
+        <div class="metric-label">Faster Deployments via GitHub Actions CI/CD</div>
+      </div>
+      <div class="metric-card reveal reveal-d3">
+        <div class="metric-icon">✅</div>
+        <div class="metric-num">98%</div>
+        <div class="metric-label">First-Response Resolution on 100+ Support Tickets</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Who I Am</p>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I'm a <strong>Senior Power Platform Developer</strong> with 6+ years delivering enterprise automation, AI-driven applications, and cloud solutions across <strong>healthcare</strong> and <strong>gaming</strong> industries.</p>
+        <p>My expertise spans the full Power Platform stack — <strong>Canvas Apps, Model-Driven Apps, Power Automate, Copilot Studio, Power Pages, Power BI, and Dataverse</strong> — alongside Dynamics 365 CE customization and Azure OpenAI integrations.</p>
+        <p>I'm skilled in gathering business requirements, designing scalable low-code architectures, and managing CI/CD pipelines using <strong>GitHub Actions and Azure DevOps</strong>, with a strong focus on enterprise security, governance, and solution lifecycle management.</p>
+        <p>Based in Lowell, MA. Reach me at <strong style="color:var(--accent2);">chevitikamalakar234@gmail.com</strong> or <strong style="color:var(--accent2);">(978) 533-6677</strong>.</p>
+      </div>
+      <div class="cert-list reveal reveal-d1">
+        <div style="font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Certifications</div>
+        <div class="cert-item">
+          <span class="cert-icon">🏅</span>
+          <div><div class="cert-name">PL-400 Certified</div><span class="cert-sub">Microsoft Power Platform Developer Associate</span></div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🤖</span>
+          <div><div class="cert-name">Copilot Studio Specialist</div><span class="cert-sub">Microsoft Certified</span></div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🐍</span>
+          <div><div class="cert-name">Python Full Stack</div><span class="cert-sub">Full Stack Certification</span></div>
+        </div>
+        <div class="cert-item">
+          <span class="cert-icon">🗄️</span>
+          <div><div class="cert-name">SQL Database Admin</div><span class="cert-sub">Database Administration & Development</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">What I Work With</p>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon">📱</div>
+        <h3>Power Platform</h3>
+        <div class="skill-tags">
+          <span class="tag">Canvas Apps</span><span class="tag">Model-Driven</span><span class="tag">Power Automate</span><span class="tag">Copilot Studio</span><span class="tag">Power Pages</span><span class="tag">Power BI</span><span class="tag">Dataverse</span><span class="tag">PCF Controls</span><span class="tag">Power Fx</span><span class="tag">ALM</span>
+        </div>
+      </div>
+      <div class="skill-card reveal reveal-d1">
+        <div class="skill-icon">⚙️</div>
+        <h3>Dynamics 365 CE</h3>
+        <div class="skill-tags">
+          <span class="tag teal">Sales &amp; Service</span><span class="tag teal">Marketing</span><span class="tag teal">C# Plugins</span><span class="tag teal">Custom APIs</span><span class="tag teal">Business Rules</span><span class="tag teal">Fetch XML</span><span class="tag teal">SSRS Reports</span><span class="tag teal">Multi-Tenant</span>
+        </div>
+      </div>
+      <div class="skill-card reveal reveal-d2">
+        <div class="skill-icon">💻</div>
+        <h3>Dev &amp; Integration</h3>
+        <div class="skill-tags">
+          <span class="tag">C# / .NET</span><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">PowerShell</span><span class="tag">REST APIs</span><span class="tag">Graph API</span><span class="tag">Azure Functions</span><span class="tag">SQL / SSIS</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🔄</div>
+        <h3>DevOps &amp; ALM</h3>
+        <div class="skill-tags">
+          <span class="tag purple">Azure DevOps</span><span class="tag purple">GitHub Actions</span><span class="tag purple">CI/CD Pipelines</span><span class="tag purple">Git</span><span class="tag purple">Agile/Scrum</span><span class="tag purple">Solution Packaging</span>
+        </div>
+      </div>
+      <div class="skill-card reveal reveal-d1">
+        <div class="skill-icon">☁️</div>
+        <h3>Azure Services</h3>
+        <div class="skill-tags">
+          <span class="tag teal">Azure OpenAI</span><span class="tag teal">AI Foundry</span><span class="tag teal">Key Vault</span><span class="tag teal">Azure Runbooks</span><span class="tag teal">App Services</span><span class="tag teal">App Insights</span><span class="tag teal">Logic Apps</span>
+        </div>
+      </div>
+      <div class="skill-card reveal reveal-d2">
+        <div class="skill-icon">🔐</div>
+        <h3>M365 &amp; Security</h3>
+        <div class="skill-tags">
+          <span class="tag">SharePoint Online</span><span class="tag">Teams</span><span class="tag">Entra ID</span><span class="tag">RBAC</span><span class="tag">DLP Policies</span><span class="tag">CoE Toolkit</span><span class="tag">Cert-Based Auth</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="skill-icon">🗄️</div>
+        <h3>Dataverse</h3>
+        <div class="skill-tags">
+          <span class="tag purple">Tables &amp; Columns</span><span class="tag purple">Relationships</span><span class="tag purple">Calculated Fields</span><span class="tag purple">Rollup Fields</span><span class="tag purple">Field-Level Security</span><span class="tag purple">Business Rules</span><span class="tag purple">Dataflows</span><span class="tag purple">Environment Variables</span><span class="tag purple">Connection References</span><span class="tag purple">Custom APIs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Career Journey</p>
+      <h2 class="section-title">Work Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot">⚡</div>
+        <div class="timeline-body">
+          <div class="timeline-meta">
+            <span class="timeline-date">May 2025 – Present</span>
+            <span class="timeline-company">Bright Star Lottery</span>
+            <span class="timeline-location">· West Greenwich, RI</span>
+          </div>
+          <h3>Power Platform Developer</h3>
+          <ul class="exp-bullets">
+            <li>Built Copilot Studio agents integrated with Dataverse, SharePoint, and Azure OpenAI using adaptive cards, conversation memory, and REST API connectors to automate support ticket routing through Easy Vista.</li>
+            <li>Implemented parent-child multi-agent frameworks in Copilot Studio, improving maintainability, scalability, and reuse of conversation components across business units.</li>
+            <li>Integrated Copilot Studio with MCP (Model Context Protocol) servers to expose Dataverse tools and SharePoint actions as callable functions for real-time data reads/writes without custom API middleware.</li>
+            <li>Built CI/CD pipelines using GitHub Actions with Power Platform Pipelines across dev, testing, and production environments, reducing manual deployment intervention.</li>
+            <li>Secured API integrations using Azure Entra ID App Registrations with certificate-based authentication and service principal permissions.</li>
+            <li>Developed PowerShell scripts to synchronize Distribution Groups and Mail-Enabled Security Groups from Exchange Online to SharePoint.</li>
+          </ul>
+          <div class="skill-tags" style="margin-top:1.2rem;">
+            <span class="tag">Copilot Studio</span><span class="tag">Azure OpenAI</span><span class="tag">GitHub Actions</span><span class="tag">Dataverse</span><span class="tag">MCP</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot">🏥</div>
+        <div class="timeline-body">
+          <div class="timeline-meta">
+            <span class="timeline-date">Jun 2023 – May 2025</span>
+            <span class="timeline-company">Healthcare Industry</span>
+            <span class="timeline-location">· Louisville, KY</span>
+          </div>
+          <h3>Power Platform Developer</h3>
+          <ul class="exp-bullets">
+            <li>Built Canvas Apps for claims adjusters and care coordinators to manage member records and submit prior authorization requests — reducing processing time by <strong style="color:var(--accent2);">40%</strong>.</li>
+            <li>Applied Model-Driven Apps on Dataverse for end-to-end case management and provider relationship tracking for over 200 users across multiple healthcare teams.</li>
+            <li>Planned Power Pages portals enabling external providers and members to submit eligibility requests and access claim statuses, with Dataverse as the centralized data repository.</li>
+            <li>Modeled multi-step Power Automate approval flows for claims, referrals, and enrollment with conditional branching, SLA monitoring, and escalation triggers.</li>
+            <li>Architected Dataverse table structures with <strong style="color:var(--accent2);">50+ custom tables</strong>, many-to-many relationships, calculated columns, rollup fields, and field-level security.</li>
+            <li>Configured RBAC and business unit hierarchy security for 200+ users across internal staff, contractors, and external partners.</li>
+            <li>Built Power BI dashboards using DAX measures and Power Query for leadership insights on enrollment trends, claims volume, and team performance.</li>
+            <li>Managed complete ALM lifecycle through Azure DevOps with zero-downtime deployments from development to production.</li>
+          </ul>
+          <div class="skill-tags" style="margin-top:1.2rem;">
+            <span class="tag">Canvas Apps</span><span class="tag">Model-Driven</span><span class="tag">Power Automate</span><span class="tag">Power BI</span><span class="tag">Power Pages</span><span class="tag">Azure DevOps</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot">🌱</div>
+        <div class="timeline-body">
+          <div class="timeline-meta">
+            <span class="timeline-date">Dec 2019 – Dec 2022</span>
+            <span class="timeline-company">Four Soft</span>
+            <span class="timeline-location">· Hyderabad, India</span>
+          </div>
+          <h3>Dynamics 365 CE Developer</h3>
+          <ul class="exp-bullets">
+            <li>Developed asynchronous C# plugins for lead routing automation, discount calculation logic, and contract renewal triggers based on configurable business rules.</li>
+            <li>Customized Sales, Customer Service, and Marketing modules including entity forms, views, dashboards, and business process flows for client sales pipelines.</li>
+            <li>Built a custom REST API integration to import product usage data from third-party systems into Dataverse for automated billing reconciliation.</li>
+            <li>Performance-tuned Fetch XML queries for SSRS reports across multi-tenant Dynamics 365 environments.</li>
+            <li>Led CRM data migration from a legacy platform to Dynamics 365 using SSIS packages, loading over <strong style="color:var(--accent2);">500,000 records</strong> with full referential integrity.</li>
+            <li>Maintained <strong style="color:var(--accent2);">98% first-response resolution rate</strong> on 100+ Power Automate production tickets with average turnaround under 4 hours.</li>
+          </ul>
+          <div class="skill-tags" style="margin-top:1.2rem;">
+            <span class="tag teal">Dynamics 365</span><span class="tag teal">C# Plugins</span><span class="tag teal">Fetch XML</span><span class="tag teal">SSIS</span><span class="tag teal">REST APIs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="achievements">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Impact &amp; Results</p>
+      <h2 class="section-title">Key Achievements</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card reveal">
+        <div class="ach-num">40%</div>
+        <div class="ach-text">Reduction in manual processing time through Power Platform automation across claims and enrollment workflows</div>
+      </div>
+      <div class="ach-card reveal reveal-d1">
+        <div class="ach-num">60%</div>
+        <div class="ach-text">Faster solution deployments after implementing GitHub Actions and Power Platform Pipelines for CI/CD across multiple environments</div>
+      </div>
+      <div class="ach-card reveal">
+        <div class="ach-num">25%</div>
+        <div class="ach-text">Annual cost savings through Power Platform licensing optimization and governance improvements under the CoE Toolkit framework</div>
+      </div>
+      <div class="ach-card reveal reveal-d1">
+        <div class="ach-num">98%</div>
+        <div class="ach-text">First-response resolution rate on 100+ Power Automate production tickets with average turnaround under 4 hours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Academic Background</p>
+      <h2 class="section-title">Education</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-icon">🎓</div>
+        <h3>M.S. Computer Information Systems</h3>
+        <div class="school">Rivier University, Nashua, NH</div>
+        <div class="year">Jan 2023 – May 2025</div>
+        <span class="edu-gpa">GPA: 3.54 / 4.0</span>
+      </div>
+      <div class="edu-card reveal reveal-d1">
+        <div class="edu-icon">🏛️</div>
+        <h3>B-Tech Civil Engineering</h3>
+        <div class="school">JNTUH, India</div>
+        <div class="year">Aug 2017 – Sep 2021</div>
+        <span class="edu-gpa">GPA: 7.05 / 10.0</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background:rgba(14,15,28,0.6);">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Let's Connect</p>
+      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-wrapper reveal">
+      <div class="contact-info">
+        <p>Have a Power Platform project, enterprise automation challenge, or hiring opportunity? I'd love to connect.</p>
+        <div class="contact-links">
+          <a href="mailto:chevitikamalakar234@gmail.com" class="contact-link">
+            <span class="cl-icon">📧</span>
+            <div><span class="cl-label">Email</span>chevitikamalakar234@gmail.com</div>
+          </a>
+          <a href="tel:9785336677" class="contact-link">
+            <span class="cl-icon">📞</span>
+            <div><span class="cl-label">Phone</span>(978) 533-6677</div>
+          </a>
+          <a href="https://linkedin.com" target="_blank" class="contact-link">
+            <span class="cl-icon">💼</span>
+            <div><span class="cl-label">LinkedIn</span>linkedin.com/in/kamalakar-cheviti</div>
+          </a>
+          <div class="contact-link" style="cursor:default;">
+            <span class="cl-icon">📍</span>
+            <div><span class="cl-label">Location</span>Lowell, MA, United States</div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form">
+        <div class="form-group">
+          <label>YOUR NAME</label>
+          <input type="text" placeholder="John Doe"/>
+        </div>
+        <div class="form-group">
+          <label>EMAIL ADDRESS</label>
+          <input type="email" placeholder="john@example.com"/>
+        </div>
+        <div class="form-group">
+          <label>MESSAGE</label>
+          <textarea placeholder="Tell me about your project or opportunity..."></textarea>
+        </div>
+        <button class="btn-primary" style="align-self:flex-start;" onclick="alert('Thanks! Kamalakar will get back to you soon.')">Send Message ✉️</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed &amp; built · <strong>Kamalakar Cheviti</strong> · Senior Power Platform Developer · PL-400 Certified · © 2025</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function animateCounter(el, target, suffix) {
+    let start = null;
+    const dur = 1800;
+    const step = (ts) => {
+      if (!start) start = ts;
+      const p = Math.min((ts - start) / dur, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.floor(e * target) + suffix;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const metObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target.querySelector('.metric-num');
+        if (el && !el.dataset.done) {
+          el.dataset.done = '1';
+          const raw = el.textContent.trim();
+          const num = parseInt(raw);
+          const suffix = raw.replace(String(num), '');
+          animateCounter(el, num, suffix);
+        }
+      }
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('.metric-card').forEach(el => metObs.observe(el));
+</script>
+</body>
+</html>
