@@ -134,6 +134,20 @@
   .exp-bullets li { font-size: 0.9rem; color: #8888aa; padding-left: 1.2rem; position: relative; }
   .exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--accent2); font-size: 0.7rem; top: 4px; }
 
+  /* PROJECTS */
+  #projects { background: rgba(14,15,28,0.6); }
+  .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.8rem; transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+  .project-card:hover { border-color: var(--accent2); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(255,122,26,0.12); }
+  .project-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
+  .project-icon { font-size: 2rem; }
+  .project-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.6rem; color: var(--text); }
+  .project-desc { color: #8888aa; font-size: 0.9rem; margin-bottom: 1.2rem; line-height: 1.5; flex-grow: 1; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+  .project-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+  .project-link:hover { color: var(--accent2); }
+  .project-link::after { content: '↗'; }
+
   /* ACHIEVEMENTS */
   #achievements { background: rgba(14,15,28,0.6); }
   .ach-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
@@ -185,7 +199,7 @@
     .metrics-row { grid-template-columns: repeat(2, 1fr); }
     .skills-grid { grid-template-columns: repeat(2, 1fr); }
     .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
-    .ach-grid, .edu-grid { grid-template-columns: 1fr; }
+    .ach-grid, .edu-grid, .projects-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
     .metrics-row { grid-template-columns: 1fr 1fr; }
@@ -201,6 +215,7 @@
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
     <li><a href="#achievements">Wins</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -426,6 +441,34 @@
             <span class="tag teal">Dynamics 365</span><span class="tag teal">C# Plugins</span><span class="tag teal">Fetch XML</span><span class="tag teal">SSIS</span><span class="tag teal">REST APIs</span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-tag">Featured Work</p>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <div class="project-header">
+          <div>
+            <h3>Copilot Cybersecurity Bot</h3>
+          </div>
+          <div class="project-icon">🤖</div>
+        </div>
+        <p class="project-desc">An intelligent conversational agent built with Copilot Studio integrated with Azure OpenAI. Provides real-time cybersecurity threat alerts, security compliance guidance, and incident response recommendations with context awareness and natural language understanding.</p>
+        <div class="project-tech">
+          <span class="tag">Copilot Studio</span>
+          <span class="tag">Azure OpenAI</span>
+          <span class="tag">Dataverse</span>
+          <span class="tag">Python</span>
+        </div>
+        <a href="https://github.com/kamalakar234/CybersecurityBot" target="_blank" class="project-link">View on GitHub</a>
       </div>
     </div>
   </div>
